@@ -1,0 +1,79 @@
+﻿/* public/css/style.css */
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #fcfcfc;
+    color: #333;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+}
+
+.event-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    background-color: #fff;
+    box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+.event-table th, .event-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: left;
+}
+
+.event-table th {
+    background-color: #007bff;
+    color: #ffffff;
+}
+
+.event-table tr:hover {
+    background-color: #f1f1f1;
+}
+
+/* Suchleiste */
+
+.search-container {
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+search-input {
+    padding: 10px;
+    width: 300px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+.search-btn {
+    padding: 10px 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 14px;
+    transition: background-color 0.2s;
+}
+
+.search-btn:hover {
+    background-color: #0056b3;
+}
+
+.reset-link {
+    color: #666;
+    text-decoration: none;
+    font-size: 14px;
+}
+
+.reset-link:hover {
+    text-decoration: underline;
+    color: #333;
+}
