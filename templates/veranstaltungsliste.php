@@ -3,10 +3,10 @@
 
     <div class="aufgabe2">
         <form action="index.php" method="POST">
-            <button type="submit" class="kat-btn" name="ueberkategorie" value="veranstaltungen">Veranstaltungen</button>
+            <button type="submit" class="kat-btn" name="ueberkategorie" value="veranstaltung">Veranstaltungen</button>
             <button type="submit" class="kat-btn" name="ueberkategorie" value="veranstaltungsort">Veranstaltungsorte</button>
             <button type="submit" class="kat-btn" name="ueberkategorie" value="veranstaltungsart1">Veranstaltungsarten1</button>
-            <button type="submit" class="kat-btn" name="ueberkategorie" value="veranstaltungskategorie">Veranstaltungskategorien</button>
+            <button type="submit" class="kat-btn" name="ueberkategorie" value="veranstaltungskategorie1">Veranstaltungskategorien</button>
             <button type="submit" class="kat-btn" name="ueberkategorie" value="zielgruppe">Zielgruppe</button>
         </form>
     </div>
@@ -17,6 +17,23 @@
             <div class="form-group">
                 <label for="suche_freitext">Freitext:</label>
                 <input type="text" id="suche_freitext" name="suche_freitext" placeholder="z.B. Konzert">
+            </div>
+            <div class="form-group">
+                <label for="suche_rubrik">Rubrik:</label>
+                <select id="suche_rubrik" name="suche_rubrik" class="search-input">
+                    <option value="">-- Alle Rubriken</option>
+
+                    <?php
+                    //prüfen ob Rubriken da
+                    if (!empty($alleRubriken)) {
+                        foreach ($alleRubriken as $rubrik){
+                            //ID als value und Bezeichnung als string
+                            echo '<option value="' . htmlspecialchars($rubrik['bezeichnung']) . '">' .
+                            htmlspecialchars($rubrik['bezeichnung']) . '</option>';
+                        }
+                    }
+                    ?>
+                </select>
             </div>
             <div class="form-group">
                 <label for="suche_kategorie">Kategorie:</label>
@@ -42,6 +59,13 @@
         <p>Keine Veranstaltungen gefunden.</p>
     <?php else: ?>
 
+        <?php
+            //ersten Eintrag prüfen
+            $ersterEintrag = $daten[0];
+            $istVeranstaltung = isset($ersterEintrag['titel']);
+            ?>
+
+    <?php if ($istVeranstaltung): ?>
         <table class="event-table">
             <thead>
             <tr>
@@ -88,18 +112,13 @@
             <?php endforeach; ?>
             </tbody>
         </table>
-
-<!--
+    <?php else: ?>
         <list class="aufgabe2-liste">
             <ul>
             <?php foreach ($daten as $eintrag): ?>
                 <li>
                     <?php
-                    if (isset($eintrag['titel'])) {
-                        echo "<strong>" . htmlspecialchars($eintrag['titel']) . "</strong>";
-                        echo " (". htmlspecialchars($eintrag['beschreibung']) . ")";
-                    }
-                    elseif (isset($eintrag['bezeichnung'])) {
+                    if (isset($eintrag['bezeichnung'])) {
                         echo htmlspecialchars($eintrag['bezeichnung']);
                     }
                     elseif (isset($eintrag['name'])) {
@@ -110,6 +129,7 @@
                 <?php endforeach; ?>
             </ul>
         </list>
--->
+
     <?php endif; ?>
+<?php endif; ?>
 </div>

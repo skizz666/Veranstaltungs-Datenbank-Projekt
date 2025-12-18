@@ -92,7 +92,7 @@ function holeDatenAusTabelle($link, $tabellenName){
         // wenn nicht erlaubt, leere Tabelle senden
         return [];
     }
-
+    else{
     // SQL-Befehl sicher bauen
     $sql = "SELECT * FROM ". $tabellenName;
 
@@ -105,11 +105,12 @@ function holeDatenAusTabelle($link, $tabellenName){
             $daten[] = $row;
         }
     }
+    }
     return $daten;
 }
 
-function sucheErweitert($link, $freitext, $kategorie, $art, $ort, $stadtteil) {
-    $sql = "SELECT v.*,
+function sucheErweitert($link, $freitext, $rubrik ,$kategorie, $art, $ort, $stadtteil) {
+    $sql = "SELECT DISTINCT v.*,
                 vo.name AS orts_name, 
                 vk.bezeichnung AS kategorie_name, 
                 va.bezeichnung AS art_name
@@ -118,11 +119,20 @@ function sucheErweitert($link, $freitext, $kategorie, $art, $ort, $stadtteil) {
     LEFT JOIN stadtteil s ON vo.stadtteil_id = s.stadtteil_id
     LEFT JOIN veranstaltungskategorie1 vk ON v.veranstaltungskategorie1_id = vk.veranstaltungskategorie1_id
     LEFT JOIN veranstaltungsart1 va ON v.veranstaltungsart1_id = va.veranstaltungsart1_id
+    LEFT JOIN veranstaltung_rubrik vr ON v.veranstaltung_id = vr.veranstaltung_id
+    LEFT JOIN rubrik r ON vr.rubrik_id = r.rubrik_id
     WHERE 1=1";
     // WHERE 1=1 ist ein Trick, da es immer wahr ist, können wir alle folgebedingungen mit 'AND' anhängen
 
     $types = "";
     $params = [];
+
+    //rubriksuche
+    if (!empty($rubrik)) {
+        $sql .= " AND r.bezeichnung LIKE ?";
+        $types .= "s";
+        $params[] = $rubrik;
+    }
 
     //Freitext sucht in jeder Tabelle
     if (!empty($freitext)) {
@@ -139,7 +149,7 @@ function sucheErweitert($link, $freitext, $kategorie, $art, $ort, $stadtteil) {
 
         $suchTerm = "%" .$freitext . "%";
 
-        // uschterm 6 mal hinzufügen
+        // uschterm 6 Mal hinzufügen
 
         for($i = 0; $i < 6; $i++) {
             $params[] = $suchTerm;
@@ -191,6 +201,18 @@ function sucheErweitert($link, $freitext, $kategorie, $art, $ort, $stadtteil) {
     while ($row =mysqli_fetch_assoc($result)) {
         $daten[] = $row;
     }
+    return $daten;
+}
+//für das dropdown rubriken suchen wir erst einmal alle rubriken aus der Datenbank
+function holeAlleRubriken($link){
+    $sql = "SELECT * FROM rubrik";
+    $result = mysqli_query($link, $sql);
+    $daten = [];
+    if ($result && mysqli_num_rows($result) > 0) {
+        while ($row = mysqli_fetch_assoc($result)) {
+            $daten[] = $row;
+        }
+        }
     return $daten;
 }
 ?>
