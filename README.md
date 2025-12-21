@@ -17,10 +17,3 @@ Eine PHP-Webanwendung zur Verwaltung und Suche von Veranstaltungen. Das Projekt 
 *   **Datenbank:** MySQL / MariaDB
 *   **Frontend:** HTML5, CSS3 (Grid & Flexbox)
 *   **Besonderheit:** Funktioniert vollständig ohne JavaScript.
-
-## Installation
-
-1.  Repository klonen.
-2.  Datenbank importieren (`database/db_dump.sql`).
-3.  Datenbank-Konfiguration anpassen (`config/db.php`).
-4.  Webserver auf das `public`-Verzeichnis richten.
